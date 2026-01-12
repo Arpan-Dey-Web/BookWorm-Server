@@ -16,6 +16,37 @@ const handleRegister = async (req: Request, res: Response) => {
     }
 };
 
+
+ const handleLogin = async (req: Request, res: Response) => {
+    try {
+        const result = await authService.loginUser(req.body);
+
+        res.status(200).json({
+            success: true,
+            message: "User logged in successfully",
+            data: {
+                user: result.user,
+                accessToken: result.token,
+            },
+        });
+    } catch (error: any) {
+        console.log(error);
+        res.status(401).json({ 
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
+
+
+
 export const authController = {
-    handleRegister,
-}
+    handleRegister, // existing
+    handleLogin,
+};
+
+
+
+
+
