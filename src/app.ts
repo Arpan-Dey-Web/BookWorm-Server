@@ -3,7 +3,7 @@ import cors from "cors";
 import { authRoutes } from "./modules/auth/auth.router";
 import { genreRoutes } from "./modules/genre/genre.router";
 import { bookRoutes } from "./modules/book/book.router";
-
+import { reviewRoutes } from "./modules/reviews/review.router";
 
 const app: Application = express();
 
@@ -19,6 +19,14 @@ app.use("/api/genres", genreRoutes);
 
 // book routes
 app.use("/api/books", bookRoutes);
+
+// review routes
+app.use("/api/review", reviewRoutes);
+
+
+
+
+
 
 
 app.get("/", (req: Request, res: Response) => {
