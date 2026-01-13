@@ -30,7 +30,22 @@ const getAllPendingReview = async (req: Request, res: Response, next: NextFuncti
 }
 
 
+const approvedPendingReview = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+        const result = await reviewService.approvedPendingReview(id as string)
+        res.status(200).json({ success: true, message: "Review approved!", result });
+
+    } catch (error) {
+        console.log(error);
+    }
+
+
+}
+
+
 export const reviewController = {
     postReview,
-    getAllPendingReview
+    getAllPendingReview,
+    approvedPendingReview
 }
