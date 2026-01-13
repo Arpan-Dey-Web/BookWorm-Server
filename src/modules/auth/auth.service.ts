@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { db } from "../shared/config/db";
+import { db } from "../../shared/config/db";
 
 
 
