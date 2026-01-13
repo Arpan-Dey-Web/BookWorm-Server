@@ -9,7 +9,12 @@ const createGenre = async (name: string) => {
     return result;
 }
 
+const getAllGenres = async () => {
+    const result = genreCollection.find().toArray();
+    return result
+}
 
-export const createGenreService = {
+export const genreService = {
     createGenre,
+    getAllGenres,
 }
