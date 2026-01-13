@@ -33,11 +33,46 @@ const getAllBooks = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 
+const updateBook = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const result = await bookService.updateBookInDB(id as string, req.body);
+
+        res.status(200).json({
+            success: true,
+            message: "Book updated successfully",
+            data: result
+        });
+    } catch (error: any) {
+        res.status(400).json({ success: false, message: error.message });
+    }
+};
+
+
+
+const deleteBook = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const deleteBook = await bookService.deleteBookFromDB(id as string);
+
+        res.status(200).json({
+            success: true,
+            message: "Book deleted successfully"
+        });
+    } catch (error: any) {
+        res.status(400).json({ success: false, message: error.message });
+    }
+};
+
+
+
+
 
 
 
 export const bookController = {
     createBooks,
     getAllBooks,
-
+    updateBook,
+    deleteBook
 }

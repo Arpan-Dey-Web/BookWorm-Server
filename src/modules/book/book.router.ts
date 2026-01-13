@@ -3,11 +3,18 @@ import { bookController } from "./book.controller";
 
 const router = Router();
 
-
+// get all books
 router.get("/", bookController.getAllBooks)
 
+// create a book
 router.post("/create-book", bookController.createBooks);
 
+// update a book 
+router.patch("/update-book/:id",  bookController.updateBook);
+router.delete("/delete-book/:id", bookController.deleteBook);
+
+
+//delete a book  
 
 
 export const bookRoutes = router;

@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { db } from "../../shared/config/db"
 
 
@@ -41,8 +42,28 @@ const getAllBooks = async (filters: any) => {
 };
 
 
+// Update Book
+const updateBookInDB = async (id: string, updatedData: any) => {
+    return await bookCollection.updateOne(
+        { _id: new ObjectId(id) },
+        { $set: { ...updatedData, updatedAt: new Date() } }
+    );
+};
+
+// Delete Book
+const deleteBookFromDB = async (id: string) => {
+    return await bookCollection.deleteOne({ _id: new ObjectId(id) });
+};
+
+
+
+
+
+
 
 export const bookService = {
     createBooks,
-    getAllBooks
+    getAllBooks,
+    updateBookInDB,
+    deleteBookFromDB
 }
