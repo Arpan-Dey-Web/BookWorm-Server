@@ -5,6 +5,7 @@ import { genreRoutes } from "./modules/genre/genre.router";
 import { bookRoutes } from "./modules/book/book.router";
 import { reviewRoutes } from "./modules/reviews/review.router";
 import { shelvesRoutes } from "./modules/shelves/shelves.router";
+import { recommendationRoutes } from "./modules/recommendation/recommendation.router";
 
 const app: Application = express();
 
@@ -27,7 +28,8 @@ app.use("/api/review", reviewRoutes);
 // shelves routes
 app.use("/api/shelves", shelvesRoutes);
 
-
+// recommendation routes
+app.use("/api/recomendation", recommendationRoutes);
 
 
 app.get("/", (req: Request, res: Response) => {

@@ -19,15 +19,21 @@ const createBooks = async (req: Request, res: Response, next: NextFunction) => {
 
 const getAllBooks = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const genres = await bookService.getAllBooks()
-        res.status(200).json({ success: true, data: genres });
+        // req.query contains the search/filter params from the URL
+        const books = await bookService.getAllBooks(req.query);
 
+        res.status(200).json({
+            success: true,
+            message: "Books fetched successfully",
+            data: books
+        });
     } catch (error) {
-        console.log(error);
+        next(error); // Pass error to global error handler
     }
+};
 
 
-}
+
 
 
 export const bookController = {
