@@ -1,7 +1,3 @@
-
-
-
-
 import { NextFunction, Request, Response } from "express";
 import { genreService } from "./genre.service";
 

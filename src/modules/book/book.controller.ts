@@ -17,8 +17,21 @@ const createBooks = async (req: Request, res: Response, next: NextFunction) => {
 }
 
 
+const getAllBooks = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const genres = await bookService.getAllBooks()
+        res.status(200).json({ success: true, data: genres });
+
+    } catch (error) {
+        console.log(error);
+    }
+
+
+}
+
 
 export const bookController = {
     createBooks,
+    getAllBooks,
 
 }
