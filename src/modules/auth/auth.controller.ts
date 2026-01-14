@@ -4,7 +4,6 @@ import { authService } from "./auth.service";
 
 const handleRegister = async (req: Request, res: Response) => {
     try {
-        // console.log("this is reqbody",req.body);
         const result = await authService.registerUser(req.body);
         res.status(201).json({
             success: true,
@@ -42,7 +41,7 @@ const handleLogin = async (req: Request, res: Response) => {
 
 
 export const authController = {
-    handleRegister, // existing
+    handleRegister, 
     handleLogin,
 };
 

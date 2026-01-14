@@ -10,11 +10,13 @@ router.get("/", bookController.getAllBooks)
 router.post("/create-book", bookController.createBooks);
 
 // update a book 
-router.patch("/update-book/:id",  bookController.updateBook);
+router.patch("/update-book/:id", bookController.updateBook);
+
+//delete a book 
 router.delete("/delete-book/:id", bookController.deleteBook);
 
 
-//delete a book  
+
 
 
 export const bookRoutes = router;

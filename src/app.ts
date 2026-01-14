@@ -7,6 +7,8 @@ import { reviewRoutes } from "./modules/reviews/review.router";
 import { shelvesRoutes } from "./modules/shelves/shelves.router";
 import { recommendationRoutes } from "./modules/recommendation/recommendation.router";
 import { userRoutes } from "./modules/user/user.router";
+import globalErrorHandler from "./shared/middleware/globalErrorHandler";
+import notFound from "./shared/middleware/notfound";
 
 const app: Application = express();
 
@@ -38,5 +40,12 @@ app.use("/api/user", userRoutes);
 app.get("/", (req: Request, res: Response) => {
     res.send("Bookworm Server API is running!");
 });
+
+
+// Global Error Handler (Must be after routes)
+app.use(globalErrorHandler);
+
+// Not Found Route (Must be the last middleware)
+app.use(notFound);
 
 export default app;

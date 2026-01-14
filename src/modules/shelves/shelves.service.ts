@@ -1,20 +1,14 @@
+import { ObjectId } from "mongodb";
 import { db } from "../../shared/config/db";
 
 const userShelvesCollection = db.collection("userShelves");
 const booksCollection = db.collection("books");
 
-type ShelfPayload = {
-    userId: string;
-    bookId: string;
-    shelfType: "want" | "current" | "read";
-};
-
-// Add or update shelf
-const addToShelf = async (data: ShelfPayload) => {
+const addToShelf = async (data: any) => {
     const { userId, bookId, shelfType } = data;
 
     return await userShelvesCollection.updateOne(
-        { userId, bookId },
+        { userId: new ObjectId(userId), bookId: new ObjectId(bookId) },
         {
             $set: {
                 shelfType,
@@ -30,35 +24,32 @@ const addToShelf = async (data: ShelfPayload) => {
     );
 };
 
-// Update reading progress
 const updateProgress = async (data: any) => {
     const { userId, bookId, pagesRead } = data;
 
-    const book = await booksCollection.findOne({ _id: bookId });
+    // Must convert string ID to ObjectId for the query to work
+    const book = await booksCollection.findOne({ _id: new ObjectId(bookId) });
     if (!book) throw new Error("Book not found");
 
-    const totalPages = book.totalPages;
-    const percentage = Math.round((pagesRead / totalPages) * 100);
+    const totalPages = book.totalPages || 100; // Fallback to avoid division by zero
+    const percentage = Math.min(Math.round((Number(pagesRead) / totalPages) * 100), 100);
 
-    // Auto move to READ if completed
     const updateData: any = {
-        pagesRead,
+        pagesRead: Number(pagesRead),
         percentage,
         updatedAt: new Date(),
     };
 
-    if (pagesRead >= totalPages) {
+    // Requirement: Move to 'read' if progress is 100%
+    if (Number(pagesRead) >= totalPages) {
         updateData.shelfType = "read";
         updateData.finishedAt = new Date();
     }
 
     return await userShelvesCollection.updateOne(
-        { userId, bookId, shelfType: "current" },
+        { userId: new ObjectId(userId), bookId: new ObjectId(bookId) },
         { $set: updateData }
     );
 };
 
-export const shelvesService = {
-    addToShelf,
-    updateProgress,
-};
+export const shelvesService = { addToShelf, updateProgress };

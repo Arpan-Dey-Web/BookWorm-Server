@@ -8,10 +8,8 @@ const userCollection = db.collection("users");
 
 const registerUser = async (userData: any) => {
     // 1. Check if user exists
-
-    // console.log( "this is user data",userData);
     const existingUser = await userCollection.findOne({ email: userData.email });
-    if (existingUser) throw new Error("User already exists");
+    if (existingUser) return ("User already exists");
 
     // 2. Hash password
     const hashedPassword = await bcrypt.hash(userData.password, 10);

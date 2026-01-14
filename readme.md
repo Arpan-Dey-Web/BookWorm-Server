@@ -53,31 +53,61 @@ Personalized book recommendations
 Book search & filters
 
 🗂️ Project Structure
-server/
+BOOKWORM-SERVER
+├── node_modules/
 ├── src/
-│ ├── modules/
-│ │ ├── auth/
-│ │ │ ├── auth.controller.js
-│ │ │ ├── auth.routes.js
-│ │ │ ├── auth.service.js
-│ │ │ └── auth.middleware.js
-│ │ ├── books/
-│ │ │ ├── book.model.js
-│ │ │ ├── book.controller.js
-│ │ │ ├── book.routes.js
-│ │ │ └── book.service.js
-│ │ ├── reviews/
-│ │ │ ├── review.model.js
-│ │ │ ├── review.controller.js
-│ │ │ └── review.routes.js
-│ ├── shared/
-│ │ ├── config/ # DB & env config
-│ │ ├── middleware/ # Global auth & error handlers
-│ │ └── utils/ # Helper utilities
-│ └── index.js
-├── .env
-├── package.json
-└── README.md
+│   ├── modules/
+│   │   ├── auth/                       # Registration & Login logic
+│   │   │   ├── auth.controller.ts
+│   │   │   ├── auth.router.ts
+│   │   │   └── auth.service.ts
+│   │   ├── book/                       # Book CRUD & Search
+│   │   │   ├── book.controller.ts
+│   │   │   ├── book.router.ts
+│   │   │   └── book.service.ts
+│   │   ├── genre/                      # Category Management
+│   │   │   ├── genre.controller.ts
+│   │   │   ├── genre.router.ts
+│   │   │   └── genre.service.ts
+│   │   ├── recommendation/             # Aggregation pipelines for personalized feeds
+│   │   │   ├── recommendation.controller.ts
+│   │   │   ├── recommendation.router.ts
+│   │   │   └── recommendation.service.ts
+│   │   ├── reviews/                    # User reviews & Admin moderation
+│   │   │   ├── review.controller.ts
+│   │   │   ├── review.router.ts
+│   │   │   └── review.service.ts
+│   │   ├── shelves/                    # Reading tracker (Want/Current/Read)
+│   │   │   ├── shelves.controller.ts
+│   │   │   ├── shelves.router.ts
+│   │   │   └── shelves.service.ts
+│   │   ├── user/                       # Admin User Management (Promote/Demote)
+│   │   │   ├── user.controller.ts
+│   │   │   ├── user.router.ts
+│   │   │   └── user.service.ts
+│   │   ├── tutorials/                  # Admin YouTube link management
+│   │   │   ├── tutorial.controller.ts
+│   │   │   ├── tutorial.router.ts
+│   │   │   └── tutorial.service.ts
+│   │   └── stats/                      # Dashboard charts data (Aggregation)
+│   │       ├── stats.controller.ts
+│   │       ├── stats.router.ts
+│   │       └── stats.service.ts
+│   ├── shared/                         # Global utilities & configurations
+│   │   ├── config/                     # Database connection & Env variables
+│   │   │   └── db.ts
+│   │   ├── middleware/                 # Authentication & Role guards
+│   │   │   ├── auth.middleware.ts      # verifyToken
+│   │   │   └── admin.middleware.ts     # verifyAdmin
+│   │   └── utils/                      # Global error handlers or helper functions
+│   ├── app.ts                          # Main Express application setup
+│   └── index.ts                        # Server entry point (starts the server)
+├── .env                                # Sensitive environment variables
+├── .gitignore                          # Ignored files (node_modules, .env)
+├── package-lock.json
+├── package.json                        # Scripts & dependencies
+├── tsconfig.json                       # TypeScript compiler settings
+└── readme.md                           # Documentation for the project
 
 🗃️ Database Models
 User
@@ -288,3 +318,11 @@ Real-world logic
 Scalability
 
 Maintainability
+
+
+
+
+
+🚀 API Endpoints Documentation
+🔐 Authentication
+MethodEndpointDescriptionAccessPOST/api/auth/registerRegister a new user with profile photoPublicPOST/api/auth/loginLogin and receive JWT tokenPublic📚 Book ManagementMethodEndpointDescriptionAccessGET/api/booksGet all books (supports search/filter/sort)User/AdminPOST/api/books/create-bookAdd a new book to the systemAdminPATCH/api/books/update-book/:idUpdate existing book detailsAdminDELETE/api/books/delete-book/:idRemove a book from the databaseAdmin📂 Genre ManagementMethodEndpointDescriptionAccessGET/api/genresFetch all available book categoriesUser/AdminPOST/api/genres/create-genreCreate a new book categoryAdmin✍️ Review SystemMethodEndpointDescriptionAccessPOST/api/review/review-postSubmit a book review (Status: Pending)UserGET/api/review/pendingView all reviews awaiting approvalAdminPATCH/api/review/approve/:idApprove a pending reviewAdmin📖 Reading Tracker (Shelves)MethodEndpointDescriptionAccessPOST/api/shelves/add-to-shelfAdd book to Want/Current/Read shelfUserPATCH/api/shelves/update-progressUpdate pages read & auto-completeUser🤖 Personalized Features & StatsMethodEndpointDescriptionAccessGET/api/recomendationGet AI-style book suggestionsUserGET/api/stats/user-overviewGet dashboard reading statisticsUser👥 User & Tutorial ManagementMethodEndpointDescriptionAccessPATCH/api/user/update-rolePromote/Demote user rolesAdminPOST/api/tutorialsAdd YouTube tutorial/review linksAdminGET/api/tutorialsView embedded book tutorialsUser/Admin
